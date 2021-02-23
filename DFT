@@ -1,16 +1,8 @@
-(No subject)
-Atte Piltonen
-Thu 27/02/2020 16:16
 clc
 
 clear all
 
  
-
-% 3.1 PROBLEM B
-
- 
-
 %First double slit
 
 %Slits centered at -15 and 15, width 20, height 1
@@ -267,7 +259,6 @@ title('Fourier Transform of the Convolution')
 
 function [Y] = Ft1 ( X)
 
-% Author: Atte Piltonen , Date: 21/02/2020
 
 % Fourier transform function for a 1âˆ’dimensional signal.
 
