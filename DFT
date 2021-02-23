@@ -346,11 +346,6 @@ function [w] = convolution1(u , v)
 
 %
 
-% Constraints:
-
-% âˆ— u and v are oneâˆ’dimensional vectors of the same size.
-
-% âˆ— Do not use the builtâˆ’in functions from MATLAB that perform convolution.
 
 N=250;
 
