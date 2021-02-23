@@ -1,0 +1,393 @@
+(No subject)
+Atte Piltonen
+Thu 27/02/2020 16:16
+clc
+
+clear all
+
+ 
+
+% 3.1 PROBLEM B
+
+ 
+
+%First double slit
+
+%Slits centered at -15 and 15, width 20, height 1
+
+% Note variable x is shifted by 250 units to the right to account for array
+
+% index starting at 1
+
+for i = 1:224
+
+    x(i) = 0;
+
+end
+
+for i=225:245
+
+    x(i) = 1;
+
+end
+
+for i = 246:254
+
+    x(i) = 0;
+
+end
+
+for i = 255:275
+
+    x(i) = 1;
+
+end
+
+for i = 276:500
+
+    x(i) = 0;
+
+end
+
+% Create horizontal axis for the graphs
+
+t=linspace(-250,249,500);
+
+ 
+
+% Fourier transform the first pair of slits
+
+y1=Ft1(x);
+
+ 
+
+% Second double slit
+
+% Centered at -25 and 25, width 20, height 1
+
+for i = 1:216
+
+    x(i) = 0;
+
+end
+
+for i=217:235
+
+    x(i) = 1;
+
+end
+
+for i = 236:266
+
+    x(i) = 0;
+
+end
+
+for i = 267:285
+
+    x(i) = 1;
+
+end
+
+for i = 286:500
+
+    x(i) = 0;
+
+end
+
+y2=Ft1(x);
+
+ 
+
+% Third double slit
+
+% Centered at -25 and 25, width 40, height 1
+
+for i = 1:206
+
+    x(i) = 0;
+
+end
+
+for i=207:245
+
+    x(i) = 1;
+
+end
+
+for i = 246:256
+
+    x(i) = 0;
+
+end
+
+for i = 257:295
+
+    x(i) = 1;
+
+end
+
+for i = 296:500
+
+    x(i) = 0;
+
+end
+
+y3=Ft1(x);
+
+ 
+
+ 
+
+% Fourth double slit
+
+% Centered at -25 and 25, width 40, height 0.5
+
+for i = 1:206
+
+    x(i) = 0;
+
+end
+
+for i=207:245
+
+    x(i) = 0.5;
+
+end
+
+for i = 246:256
+
+    x(i) = 0;
+
+end
+
+for i = 257:295
+
+    x(i) = 0.5;
+
+end
+
+for i = 296:500
+
+    x(i) = 0;
+
+end
+
+y4=Ft1(x);
+
+ 
+
+% Plot the graphs of the transforms on a 2x2 grid
+
+figure(1)
+
+tiledlayout(2,2)
+
+nexttile
+
+plot(t,abs(y1))
+
+title('Slits of width 20, height 1 centered at +/-15')
+
+nexttile
+
+plot(t,abs(y2),'r')
+
+title('Slits of width 20, height 1 centered at +/-25')
+
+nexttile
+
+plot(t,abs(y3),'k')
+
+title('Slits of width 40, height 1 centered at +/-25')
+
+nexttile
+
+plot(t,abs(y4),'m')
+
+title('Slits of width 40, height 0.5 centered at +/-25')
+
+ 
+
+% 3.2 CONVOLUTION
+
+ 
+
+% Create a single slit, centred at origin, width 20, height 1
+
+ 
+
+for i = 1:241
+
+    x(i) = 0;
+
+end
+
+for i = 242:260
+
+    x(i) = 1;
+
+end
+
+for i = 261:500
+
+    x(i) = 0;
+
+end
+
+ 
+
+y5 = Ft1(x); % Fourier transform single slit
+
+u1 = convolution1(x,x); % Convolve slit with itself
+
+y6 = Ft1(u1); % Fourier transform the convolution
+
+ 
+
+figure(2)
+
+tiledlayout(2,1)
+
+nexttile
+
+plot(t,abs(y5).^2,'b')
+
+title('Squared Fourier Transform of the Single Slit')
+
+nexttile
+
+plot(t,abs(y6),'r')
+
+title('Fourier Transform of the Convolution')
+
+ 
+
+ 
+
+function [Y] = Ft1 ( X)
+
+% Author: Atte Piltonen , Date: 21/02/2020
+
+% Fourier transform function for a 1âˆ’dimensional signal.
+
+% Input:
+
+% âˆ— X: a column vector of signal with N elements (N x 1).
+
+%
+
+% Output:
+
+% âˆ— Y: the Fourier transformed signal in the form of a column vector of N complex
+
+% elements.
+
+%
+
+% Constraints:
+
+% âˆ— X is a oneâˆ’dimensional column vector
+
+% âˆ— Do not use the builtâˆ’in Fourier transform functions from MATLAB
+
+%
+
+% Example use:
+
+% >> t = linspace(âˆ’1, 1, 1000);
+
+% >> x = exp(âˆ’t.âˆ—t/(2âˆ—0.2^2));
+
+% >> y = ft1(x);
+
+% >> plot(abs(y));
+
+ 
+
+N=250; 
+
+for u = 1:2*N % takes into account the fact that we need 500 elements in the array
+
+    RF(u)= 0; % Initialize the output arrays
+
+    IF(u)= 0;
+
+    Y(u) = 0;
+
+    for x = -N:(N-1) % here x is the x-value of the original function, the variable u must also be transformed to match
+
+        RF(u) =RF(u) + 1/(2*N)*(real(X(x+251))*cos(-pi*x*(u-251)/N)-imag(X(x+251))*sin(-pi*x*(u-251)/N)); %  Real part of the transform
+
+        IF(u) =IF(u) + 1/(2*N)*(real(X(x+251))*sin(-pi*x*(u-251)/N)-imag(X(x+251))*cos(-pi*x*(u-251)/N)); % Imaginary part of transform
+
+        Y(u)=RF(u)+1i*IF(u); % the final output is the sum of real and imaginary parts
+
+    end
+
+end
+
+ 
+
+end
+
+ 
+
+function [w] = convolution1(u , v)
+
+% Author: Atte Piltonen , Date: 27/02/2020
+
+% Perform convolution of two 1âˆ’dimensional signals, u and v
+
+% Input:
+
+% âˆ— u, v: column vectors of signal with N elements each (N x 1).
+
+%
+
+% Output:
+
+% âˆ— w: the convolved signal of u and v with the same size as the input vector, N x 1
+
+% (the full vector would have size 2Nâˆ’1 but here we only take the central part of
+
+% the signal, [ceil((N+1)/2):ceil((3âˆ—Nâˆ’1)/2)] ).
+
+%
+
+% Constraints:
+
+% âˆ— u and v are oneâˆ’dimensional vectors of the same size.
+
+% âˆ— Do not use the builtâˆ’in functions from MATLAB that perform convolution.
+
+N=250;
+
+m = length(u); % number of elements in the input arrays
+
+n = length(v);
+
+for k = 1:(4*N-1) % the length of the full convolved signal
+
+    s(k) = 0;     % initialize the convolved signal
+
+    for j = max(1,k+1-n):1:min(k,m)  % the allowed logical values for the array indices
+
+        s(k) = s(k) + 1/(2*N)*u(j)*v(k-j+1); % discrete convolution operation, with a scaling factor 1/2N corresponding to dx
+
+    end
+
+end
+
+ 
+
+for i = 1:500 % crop the signal to contain the 500 central elements
+
+    w(i) = s(i+250);
+
+end
+
+ 
+
+end
+
