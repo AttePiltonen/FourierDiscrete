@@ -2,7 +2,9 @@ clc
 
 clear all
 
- 
+% This program takes an optical transmission signal and Fourier transforms it, and plots the resulting intensity (square of the Fourier transform)
+
+
 % First double slit
 
 % Slits centered at -15 and 15, width 20, height 1
