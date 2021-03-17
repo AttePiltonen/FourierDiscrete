@@ -3,9 +3,9 @@ clc
 clear all
 
  
-%First double slit
+% First double slit
 
-%Slits centered at -15 and 15, width 20, height 1
+% Slits centered at -15 and 15, width 20, height 1
 
 % Note variable x is shifted by 250 units to the right to account for array
 
@@ -201,7 +201,7 @@ title('Slits of width 40, height 0.5 centered at +/-25')
 
  
 
-% 3.2 CONVOLUTION
+% Convolution of transmission functions
 
  
 
@@ -260,40 +260,17 @@ title('Fourier Transform of the Convolution')
 function [Y] = Ft1 ( X)
 
 
-% Fourier transform function for a 1âˆ’dimensional signal.
+% Fourier transform function for a 1-dimensional signal.
 
 % Input:
 
-% âˆ— X: a column vector of signal with N elements (N x 1).
+% X: a column vector of signal with N elements (N x 1).
 
 %
 
 % Output:
 
-% âˆ— Y: the Fourier transformed signal in the form of a column vector of N complex
-
-% elements.
-
-%
-
-% Constraints:
-
-% âˆ— X is a oneâˆ’dimensional column vector
-
-% âˆ— Do not use the builtâˆ’in Fourier transform functions from MATLAB
-
-%
-
-% Example use:
-
-% >> t = linspace(âˆ’1, 1, 1000);
-
-% >> x = exp(âˆ’t.âˆ—t/(2âˆ—0.2^2));
-
-% >> y = ft1(x);
-
-% >> plot(abs(y));
-
+% Y: the Fourier transformed signal in the form of a column vector of N complex elements.
  
 
 N=250; 
@@ -326,25 +303,15 @@ end
 
 function [w] = convolution1(u , v)
 
-% Author: Atte Piltonen , Date: 27/02/2020
-
-% Perform convolution of two 1âˆ’dimensional signals, u and v
+% Perform convolution of two 1-dimensional signals, u and v
 
 % Input:
 
-% âˆ— u, v: column vectors of signal with N elements each (N x 1).
-
-%
+% u, v: column vectors of signal with N elements each (N x 1).
 
 % Output:
 
-% âˆ— w: the convolved signal of u and v with the same size as the input vector, N x 1
-
-% (the full vector would have size 2Nâˆ’1 but here we only take the central part of
-
-% the signal, [ceil((N+1)/2):ceil((3âˆ—Nâˆ’1)/2)] ).
-
-%
+% w: the convolved signal of u and v with the same size as the input vector, N x 1
 
 
 N=250;
